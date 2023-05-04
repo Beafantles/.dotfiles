@@ -1,0 +1,5 @@
+Checks: "-*, boost-use-to-string, bugprone-assert-side-effect"
+CheckOptions:
+  bugprone-assert-side-effect.AssertMacros: assert, BOOST_ASSERT, BOOST_ASSERT_MSG
+  bugprone-assert-side-effect.CheckFunctionCalls: true 
+FormatStyle: "file"

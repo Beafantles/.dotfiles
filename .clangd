@@ -1,0 +1,24 @@
+CompileFlags:
+  Add: [-xc++, -Wall]
+  Remove: -W*
+  CompilationDatabase: build
+  Compiler: clang++
+Index:
+  Background: Build
+  # External: 
+  StandardLibrary: Yes
+Style:
+  FullyQualifiedNamespaces: Yes
+Diagnostics:
+  # Suppress
+  # ClangTidy
+  UnusedIncludes: Strict
+Completion:
+  AllScopes: Yes
+InlayHints:
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
+  Designators: Yes
+Hover:
+  ShowAKA: Yes
