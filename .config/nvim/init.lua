@@ -42,6 +42,10 @@ Plug('hrsh7th/cmp-cmdline')
 Plug('hrsh7th/nvim-cmp')
 Plug('hrsh7th/cmp-vsnip')
 Plug('hrsh7th/vim-vsnip')
+Plug('preservim/tagbar')
+Plug('nvim-lualine/lualine.nvim')
+Plug('lukas-reineke/indent-blankline.nvim')
+Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 
 vim.call('plug#end')
 
@@ -56,10 +60,17 @@ vim.keymap.set('n', '<leader>-', '<cmd>:BufferGoto 6<cr>')
 vim.keymap.set('n', '<leader>è', '<cmd>:BufferGoto 7<cr>')
 vim.keymap.set('n', '<leader>_', '<cmd>:BufferGoto 8<cr>')
 vim.keymap.set('n', '<leader>ç', '<cmd>:BufferGoto 9<cr>')
-vim.keymap.set('n', '<leader>j', '<cmd>:ToggleTerm size=15 direction=horizontal<cr>')
+vim.keymap.set('n', '<leader>j', '<cmd>:ToggleTerm size=12 direction=horizontal<cr>')
 vim.keymap.set('n', '<leader>w', '<cmd>:BufferClose<cr>')
+vim.keymap.set('n', '<leader>²', '<cmd>:TagbarToggle<cr>')
 
 vim.cmd[[colorscheme tokyonight-storm]]
+
+-- indent-blankline options
+vim.opt.list = true
+vim.opt.listchars:append "space:⋅"
+vim.opt.termguicolors = true
+vim.cmd [[highlight IndentBlanklineContextStart guisp=#C678DD gui=underline]]
 
 require("nvim-tree").setup {
     live_filter = {
@@ -71,6 +82,68 @@ require("barbar").setup {
     sidebar_filetypes = {
         NvimTree = true
     }
+}
+
+require("indent_blankline").setup {
+    space_char_blankline = " ", 
+    show_current_context = true,
+    show_current_context_start = true
+}
+
+local lualine = require("lualine")
+
+local function get_current_tag()
+    local symbol_type = vim.fn["tagbar#currenttagtype"]('%s', '')
+    local tag_icon = ''
+    local flag = 'f'
+    if symbol_type == 'class' or symbol_type == 'struct' or symbol_type == 'union' then
+        tag_icon = ''
+    elseif symbol_type == 'enum' then
+        tag_icon = ''
+    elseif symbol_type == 'enumerator' or symbol_type == 'member' then
+        tag_icon = ''
+    elseif symbol_type == 'function' or symbol_type == 'prototype' then
+        tag_icon = '󰊕'
+        flag = 'pf'
+    elseif symbol_type == 'namespace' then
+        tag_icon = ''
+    end
+    local symbol_signature = vim.fn["tagbar#currenttag"]('%s', '', flag, 'scoped-stl')
+    if tag_icon ~= '' then
+        return string.format("%s %s", tag_icon, symbol_signature)
+    else
+        return ''
+    end
+end
+
+lualine.setup {
+    options = {
+        theme = 'auto'
+    },
+    sections = {
+        lualine_a = {
+            "mode"
+        },
+        lualine_b = {
+            "branch"
+        },
+        lualine_c = {
+            "filename", "diagnostics"
+        },
+        lualine_x = {
+            "searchcount", "selectioncount", "filetype", "encoding", "fileformat"
+        },
+        lualine_y = {
+            get_current_tag
+        },
+        lualine_z = {
+            "os.date('%H:%M:%S')", "location", "progress" 
+        }
+    },
+    refresh = {
+        statusline = 1000
+    },
+    globalstatus = true
 }
 
 require("toggleterm").setup()
@@ -148,9 +221,9 @@ cmp.setup.cmdline(':', {
   })
 })
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lsp_config = require('lspconfig')
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 lsp_config.clangd.setup {
   capabilities = capabilities,
