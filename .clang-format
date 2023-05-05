@@ -29,7 +29,7 @@ AlignEscapedNewlines: Right
 AlignOperands: Align
 AlignTrailingComments:
   Kind: Always
-  OverEmptyLines: 2
+  OverEmptyLines: 1
 AllowAllArgumentsOnNextLine: true
 # DEPRECATED: AllowAllConstructorInitiliazersOnNextLine:
 AllowAllParametersOfDeclarationOnNextLine: true
