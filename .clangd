@@ -5,7 +5,7 @@ CompileFlags:
   Compiler: clang++
 Index:
   Background: Build
-  # External: 
+  # External:
   StandardLibrary: Yes
 Style:
   FullyQualifiedNamespaces: Yes
