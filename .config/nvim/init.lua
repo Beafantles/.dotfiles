@@ -16,7 +16,6 @@ vim.opt.termguicolors = true
 
 -- barbar options
 vim.g.barbar_auto_setup = false
-
 vim.g.mapleader = ' '
 
 vim.keymap.set('n', '<leader>s', '<cmd>write<cr>')
@@ -45,7 +44,7 @@ Plug('hrsh7th/vim-vsnip')
 Plug('preservim/tagbar')
 Plug('nvim-lualine/lualine.nvim')
 Plug('lukas-reineke/indent-blankline.nvim')
-Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
+Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
 
 vim.call('plug#end')
 
@@ -66,11 +65,17 @@ vim.keymap.set('n', '<leader>²', '<cmd>:TagbarToggle<cr>')
 
 vim.cmd[[colorscheme tokyonight-storm]]
 
--- indent-blankline options
-vim.opt.list = true
-vim.opt.listchars:append "space:⋅"
-vim.opt.termguicolors = true
-vim.cmd [[highlight IndentBlanklineContextStart guisp=#C678DD gui=underline]]
+-- indentblankline options
+vim.cmd [[highlight ExtraWhitespace guibg=red]]
+vim.cmd [[match ExtraWhitespace /\s\+$/]]
+vim.cmd [[highlight IndentBlanklineContextChar guifg=#bf80ff gui=nocombine]]
+vim.cmd [[highlight IndentBlanklineContextStart guisp=#bf80ff gui=underline]]
+
+require("indent_blankline").setup {
+    char = '▏',
+    show_current_context = true,
+    show_current_context_start = true
+}
 
 require("nvim-tree").setup {
     live_filter = {
@@ -82,12 +87,6 @@ require("barbar").setup {
     sidebar_filetypes = {
         NvimTree = true
     }
-}
-
-require("indent_blankline").setup {
-    space_char_blankline = " ", 
-    show_current_context = true,
-    show_current_context_start = true
 }
 
 local lualine = require("lualine")
@@ -118,9 +117,10 @@ end
 
 lualine.setup {
     options = {
-        theme = 'auto'
+        theme = 'auto',
+        globalstatus = true
     },
-    sections = {
+   sections = {
         lualine_a = {
             "mode"
         },
@@ -137,13 +137,9 @@ lualine.setup {
             get_current_tag
         },
         lualine_z = {
-            "os.date('%H:%M:%S')", "location", "progress" 
+            "os.date('%H:%M:%S')", "location", "progress"
         }
-    },
-    refresh = {
-        statusline = 1000
-    },
-    globalstatus = true
+    }
 }
 
 require("toggleterm").setup()
@@ -173,9 +169,9 @@ vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
 local cmp = require("cmp")
 
 cmp.setup({
-  snippet = { 
+  snippet = {
     expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body) 
+      vim.fn["vsnip#anonymous"](args.body)
   end,
   },
   window = {
@@ -187,7 +183,7 @@ cmp.setup({
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }), 
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
@@ -199,7 +195,7 @@ cmp.setup({
 
 cmp.setup.filetype('gitcommit', {
   sources = cmp.config.sources({
-    { name = 'cmp_git' }, 
+    { name = 'cmp_git' },
   }, {
     { name = 'buffer' },
   })
@@ -221,7 +217,6 @@ cmp.setup.cmdline(':', {
   })
 })
 
-
 local lsp_config = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -242,3 +237,4 @@ lsp_config.cmake.setup {
 }
 
 vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+
