@@ -29,7 +29,7 @@ AlignEscapedNewlines: Right
 AlignOperands: Align
 AlignTrailingComments:
   Kind: Always
-  OverEmptyLines: 1
+  OverEmptyLines: 0
 AllowAllArgumentsOnNextLine: true
 # DEPRECATED: AllowAllConstructorInitiliazersOnNextLine:
 AllowAllParametersOfDeclarationOnNextLine: true
@@ -70,7 +70,7 @@ BraceWrapping:
 # [CLANG-FORMAT 17] BracedInitializerIndentWidth:
 BreakAfterAttributes: Never
 # BreakAfterJavaFieldAnnotations
-# BreakArrays: 
+# BreakArrays
 BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Custom
 BreakBeforeConceptDeclarations: Always
@@ -128,7 +128,7 @@ LineEnding: LF
 MacroBlockBegin: ""
 MacroBlockEnd: ""
 # [CLANG-FORMAT 17] Macros: ""
-MaxEmptyLinesToKeep: 2
+MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
 NamespaceMacros: []
 # ObjCBinPackProtocolList
@@ -138,7 +138,7 @@ NamespaceMacros: []
 # ObjCSpaceBeforeProtocolList
 PPIndentWidth: 2
 PackConstructorInitializers: Never
-# PenaltyBreakAssignment 
+# PenaltyBreakAssignment
 # PenaltyBreakBeforeFirstCallParameter
 # PenaltyBreakComment
 # PenaltyBreakFirstLessLess
@@ -206,4 +206,3 @@ TypenameMacros: []
 UseTab: Never
 # [CLANG-FORMAT 17] VerilogBreakBetweenInstancePorts
 WhitespaceSensitiveMacros: []
-
